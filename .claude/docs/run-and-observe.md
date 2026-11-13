@@ -128,7 +128,10 @@ is a check of **values**, not of a screenshot. A picture cannot tell a hit that 
    sample state over the action; a value that is spent and then regenerates only shows in a timeline.
 6. **Read state after** with `run_script`. Pass or fail each criterion on the numbers, with its tolerance written down.
    "No error was logged" is not a pass.
-7. Screenshots (`take_screenshot`) for the visual criteria, kept in `production/qa/evidence/[story-slug]/`.
+7. Screenshots (`take_screenshot`) for the visual criteria, kept in `production/qa/evidence/[story-slug]/` at
+   **native size** (`NN-what.png`, the one you read yourself, never a shrunk preview) plus a **nearest-neighbor 3x
+   copy** (`NN-what@3x.png`) for the person's review:
+   `godot --headless --path . -s tools/qa/upscale_png.gd -- <native.png> <NN-what@3x.png> 3`.
 8. `get_debug_output` for errors, `stop_project`, then confirm no bridge was left: the project's `project.godot` has no
    `autoload` or `McpBridge` line and `git diff --exit-code -- <project>/project.godot` is clean.
 

@@ -3,7 +3,7 @@ name: work-queue
 description: "Processes the playtest inbox, then builds, verifies, and closes queued bugs and stories one after another until the limit, an empty queue, or a decision only Matthew can make."
 argument-hint: "[max-items, default 3]"
 user-invocable: true
-allowed-tools: Read, Glob, Grep, Write, Edit, Agent, Bash(git status*), Bash(git diff*), Bash(git branch*), Bash(git checkout -b *), Bash(git add -- *), Bash(git commit -m *), Bash(godot *), Bash(mkdir -p production/*)
+allowed-tools: Read, Glob, Grep, Write, Edit, Agent, Bash(git status*), Bash(git diff*), Bash(git branch*), Bash(git checkout -b *), Bash(git add -- *), Bash(git commit -m *), Bash(godot *), Bash(mkdir -p production/*), Bash(cp * production/qa/evidence/*)
 ---
 
 # Work Queue
@@ -62,9 +62,15 @@ b. **Run the game and check real state.** Follow "Godot 4 with godot-mcp" in
    - Drive input as Godot input actions (`action`) or keyboard events (`key`). **Never mouse
      motion**: it does not move `get_global_mouse_position()`. Arrange aim-dependent setups
      with `run_script`, or flag that the game needs a non-mouse aim input.
-   - Still take screenshots for the visual criteria and keep them in
-     `production/qa/evidence/<slug>/`. Check `get_debug_output`, `stop_project`, and confirm
-     no bridge autoload was left in `project.godot`.
+   - Still take screenshots for the visual criteria, and save two copies of each in
+     `production/qa/evidence/<slug>/`. The **native-size** PNG, exactly as the game wrote it
+     (`NN-what.png`), is the one you look at yourself: use `responseMode: "full"` or Read the
+     file, never a shrunk preview. A **nearest-neighbor 3x copy** (`NN-what@3x.png`) is for
+     Matthew's review, made with
+     `godot --headless --path . -s tools/qa/upscale_png.gd -- <native.png> <NN-what@3x.png> 3`
+     (use the engine path from `project.yaml` if `godot` is not on PATH).
+   - Check `get_debug_output`, `stop_project`, and confirm no bridge autoload was left in
+     `project.godot`.
    - If godot-mcp is not connected, or `run_script` is not confirmed, use the Godot CLI
      capture instead. It gives pixels only, so every criterion about state is
      **NOT VERIFIED**, not a pass, and the hand-back says which run happened.
@@ -101,6 +107,7 @@ Write `production/playtest/test-next.md` with:
 
 - what changed, one line per item
 - exactly what Matthew should play to test each one
+- the paths of the `@3x` screenshots for him to look at
 - new entries added to `design/open-questions.md`
 - blocked items and why
 - inbox lines left unprocessed, and why the run stopped
