@@ -100,3 +100,13 @@ elsewhere in the repo, so they are restated here rather than lost:
 - **Helpers in `.claude/scripts/` emit observations, never verdicts.** A script
   that scores or judges will eventually contradict a mode or override it cannot
   see. (Cited by `artifact-check.sh` and `adr-dep-graph.sh`.)
+
+## Agent skills
+
+### Issue tracker
+
+Local markdown: bugs in `production/qa/bugs/`, stories under `production/epics/`. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context: glossary in `design/GLOSSARY.md`, ADRs in `docs/architecture/`. See `docs/agents/domain.md`.
