@@ -79,6 +79,8 @@ output and screenshots, and fix errors before handing back.
 
 **Git:** commit each finished item to a feature branch with a Conventional
 Commit message. Never push, merge to `main`, or force-push without asking.
+Once a feature branch is merged into `main`, delete the local branch right away with
+`git branch -d` (never `-D`). Do not leave merged branches behind.
 
 **Stop and ask** for anything in the creative list above, anything in
 `modes.automation_always_ask`, and anything `design/kingdom-knight-design.md`
