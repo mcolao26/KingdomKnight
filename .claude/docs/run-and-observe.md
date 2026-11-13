@@ -112,6 +112,32 @@ autoload that on the wanted condition does
 `get_viewport().get_texture().get_image().save_png(path)`, then
 `get_tree().quit()`.
 
+### Godot 4 with godot-mcp — read state, not just pixels
+
+When the godot MCP server is connected, a check of how the game *behaves* (HP, stamina, a state machine, positions)
+is a check of **values**, not of a screenshot. A picture cannot tell a hit that landed from one that missed.
+
+1. Load the tools: ToolSearch `select:mcp__godot__run_project,mcp__godot__run_script,mcp__godot__simulate_input,mcp__godot__take_screenshot,mcp__godot__get_debug_output,mcp__godot__stop_project`.
+2. `run_project` on the project (`background: true` keeps a real cursor out of it).
+3. **Arrange** with `run_script` when the check needs a known start (set HP, put the target in reach). Arrange only:
+   never set the value the check is about, and say what was set.
+4. **Read state before** with `run_script`: the values the acceptance criteria name. Write the numbers down.
+5. **Drive one input** with `simulate_input`, as a Godot input action (`action`) or a keyboard event (`key`).
+   **Never mouse motion**: injected mouse motion does not move `get_global_mouse_position()` (measured on the combat
+   prototype), so a mouse-aimed game is arranged in step 3 or needs a non-mouse aim input. Use `watch` with `wait`s to
+   sample state over the action; a value that is spent and then regenerates only shows in a timeline.
+6. **Read state after** with `run_script`. Pass or fail each criterion on the numbers, with its tolerance written down.
+   "No error was logged" is not a pass.
+7. Screenshots (`take_screenshot`) for the visual criteria, kept in `production/qa/evidence/[story-slug]/`.
+8. `get_debug_output` for errors, `stop_project`, then confirm no bridge was left: the project's `project.godot` has no
+   `autoload` or `McpBridge` line and `git diff --exit-code -- <project>/project.godot` is clean.
+
+`run_script` asks the user to confirm once per project. If the confirmation goes unanswered, retry once; if it is still
+unanswered, every state criterion is `NOT VERIFIED`. Do not set `GODOT_MCP_DISABLE_ELICITATION` or change the server's
+configuration without the user saying so. With no godot-mcp, the capture above gives pixels only: say so, and mark
+every criterion about state `NOT VERIFIED`, never a pass. A worked example, with the real values:
+`production/qa/evidence/combat-concept/05-state-proof.md`.
+
 ### Unity 6 — one MonoBehaviour
 
 `-batchmode` displays nothing, so the run is either the **built player** or the

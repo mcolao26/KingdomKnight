@@ -3,6 +3,7 @@ name: work-queue
 description: "Processes the playtest inbox, then builds, verifies, and closes queued bugs and stories one after another until the limit, an empty queue, or a decision only Matthew can make."
 argument-hint: "[max-items, default 3]"
 user-invocable: true
+allowed-tools: Read, Glob, Grep, Write, Edit, Agent, Bash(git status*), Bash(git diff*), Bash(git branch*), Bash(git checkout -b *), Bash(git add -- *), Bash(git commit -m *), Bash(godot *), Bash(mkdir -p production/*)
 ---
 
 # Work Queue
@@ -13,6 +14,12 @@ notes into work, does the work, checks it, and hands back what to play next. Rea
 is Matthew's, and is never invented here.
 
 **Argument:** an optional maximum number of items to work this run. Default 3.
+
+**Writes follow `modes.automation`** (`.claude/docs/automation-modes.md`). In `collaborative` or
+`guided` mode, ask "May I write this to [filepath]?" before each file write, and show a draft or
+summary first. In `autonomous` mode (this project's setting) write directly and log decisions in
+`production/session-logs/decision-log.md`. Pushing and merging to `main` are never covered by
+this skill: they always need Matthew's go-ahead.
 
 **Skills that cannot be started with the Skill tool.** `dev-story` and `story-done` are set
 `disable-model-invocation`. To use either, Read its `SKILL.md` and follow it directly.
@@ -46,19 +53,33 @@ Then ready stories in sprint order. Skip anything already blocked.
 One item at a time, up to the maximum:
 
 a. **Build it.** A story: Read and follow `.claude/skills/dev-story/SKILL.md`. A bug: fix it.
-b. **Run the game and look.** Use godot-mcp when it is connected: check the debug output and
-   take screenshots. If it is not connected, use the Godot CLI capture in
-   `.claude/docs/run-and-observe.md` and keep the PNGs in `production/qa/evidence/`. State
-   which one ran. A parse check alone is not a run.
-c. **Independent check.** Spawn the `qa-tester` subagent. Give it only the acceptance
-   criteria, the screenshot paths, the log output and the test results. Do not give it your
-   reasoning or your own verdict. It reports pass or fail per criterion.
-d. **Pass:** a story is closed by reading and following
+b. **Run the game and check real state.** Follow "Godot 4 with godot-mcp" in
+   `.claude/docs/run-and-observe.md`. The rules, in short:
+   - Read the real game state (HP, stamina, player state, positions, whatever the criteria
+     name) through `run_script` **before and after each input**, and pass or fail each
+     criterion on those numbers, with the tolerance written down. A screenshot alone, or
+     "no error was logged", is never a pass.
+   - Drive input as Godot input actions (`action`) or keyboard events (`key`). **Never mouse
+     motion**: it does not move `get_global_mouse_position()`. Arrange aim-dependent setups
+     with `run_script`, or flag that the game needs a non-mouse aim input.
+   - Still take screenshots for the visual criteria and keep them in
+     `production/qa/evidence/<slug>/`. Check `get_debug_output`, `stop_project`, and confirm
+     no bridge autoload was left in `project.godot`.
+   - If godot-mcp is not connected, or `run_script` is not confirmed, use the Godot CLI
+     capture instead. It gives pixels only, so every criterion about state is
+     **NOT VERIFIED**, not a pass, and the hand-back says which run happened.
+c. **Independent check.** Spawn the `qa-tester` subagent. Its objective: judge each
+   acceptance criterion on its own, from the evidence alone. Give it only the acceptance
+   criteria, the before and after values with their tolerances, the screenshot paths, the
+   log output and the test results. Do not give it your reasoning or your own verdict. It
+   reports PASS, FAIL or NOT VERIFIED per criterion, with the value or file it relied on.
+d. **PASS:** a story is closed by reading and following
    `.claude/skills/story-done/SKILL.md`. A bug goes through `/bug-report verify [BUG-ID]`,
    then `/bug-report close [BUG-ID]`. Commit to the current feature branch with a
    Conventional Commit message and the story or bug ID in the body.
-e. **Fail:** fix it and run b and c again. If it fails a second time, mark it blocked, note
-   why in the item, and move to the next one.
+e. **FAIL:** fix it and run b and c again. If it fails a second time, mark it BLOCKED, note
+   why in the item, and move to the next one. An item with any criterion NOT VERIFIED is not
+   closed: leave it open and list the unverified criteria in the hand-back.
 
 Log each non-trivial decision in `production/session-logs/decision-log.md`.
 
@@ -85,3 +106,6 @@ Write `production/playtest/test-next.md` with:
 - inbox lines left unprocessed, and why the run stopped
 
 Then show Matthew a short summary.
+
+**Recommended next:** Matthew plays what `production/playtest/test-next.md` lists, writes his
+notes under `## New` in `production/playtest/inbox.md`, and runs `/work-queue` again.
