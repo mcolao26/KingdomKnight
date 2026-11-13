@@ -13,7 +13,10 @@ Desktop.ini
 .claude/settings.local.json
 CLAUDE.local.md
 project.local.yaml
-production/session-logs/
+# Session logs stay local, except the decision log, which is the audit trail of autonomous choices.
+# The directory itself must not be ignored, or the negation below cannot work.
+production/session-logs/*
+!production/session-logs/decision-log.md
 # Ephemeral per-session checkpoint; never committed.
 production/session-state/
 .scratch/

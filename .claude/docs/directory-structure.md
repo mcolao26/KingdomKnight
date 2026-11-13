@@ -15,7 +15,7 @@
 ├── prototypes/                  # One-shot games, throwaway prototypes (outside the code root)
 ├── production/                  # Production management (sprints, milestones, releases)
 │   ├── session-state/           # Ephemeral session state (active.md — gitignored)
-│   └── session-logs/            # Session audit trail (gitignored)
+│   └── session-logs/            # Session audit trail (gitignored, except decision-log.md)
 └── studio-tests/                # QA for the skills/agents themselves — /skill-test, /skill-improve
 ```
 
