@@ -67,8 +67,10 @@ b. **Run the game and check real state.** Follow "Godot 4 with godot-mcp" in
      (`NN-what.png`), is the one you look at yourself: use `responseMode: "full"` or Read the
      file, never a shrunk preview. A **nearest-neighbor 3x copy** (`NN-what@3x.png`) is for
      Matthew's review, made with
-     `godot --headless --path . -s tools/qa/upscale_png.gd -- <native.png> <NN-what@3x.png> 3`
-     (use the engine path from `project.yaml` if `godot` is not on PATH).
+     `C:/dev/Godot/Godot_v4.7.2-stable_win64.exe --headless --path . -s tools/qa/upscale_png.gd -- <native.png> <NN-what@3x.png> 3`
+     (the `engine.path` from `project.yaml`, unquoted, typed out literally). That exact form
+     is the one `.claude/settings.json` allows; a variable, a quoted path or a loop does not
+     match the allow rule.
    - Check `get_debug_output`, `stop_project`, and confirm no bridge autoload was left in
      `project.godot`.
    - If godot-mcp is not connected, or `run_script` is not confirmed, use the Godot CLI

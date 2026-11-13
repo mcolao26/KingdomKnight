@@ -44,7 +44,8 @@
       "Bash(bash .claude/hooks/yaml-helper.sh resolve_setting *)",
       "Bash(bash .claude/hooks/yaml-helper.sh is_locally_overridable *)",
       "Bash(bash .claude/hooks/yaml-helper.sh validate_enum_value *)",
-      "Bash(bash .claude/hooks/yaml-helper.sh validate_yaml_enum *)"
+      "Bash(bash .claude/hooks/yaml-helper.sh validate_yaml_enum *)",
+      "Bash(C:/dev/Godot/Godot_v4.7.2-stable_win64.exe --headless --path . -s tools/qa/upscale_png.gd -- *)"
     ],
     "deny": [
       "Bash(rm -rf *)",

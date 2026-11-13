@@ -131,7 +131,8 @@ is a check of **values**, not of a screenshot. A picture cannot tell a hit that 
 7. Screenshots (`take_screenshot`) for the visual criteria, kept in `production/qa/evidence/[story-slug]/` at
    **native size** (`NN-what.png`, the one you read yourself, never a shrunk preview) plus a **nearest-neighbor 3x
    copy** (`NN-what@3x.png`) for the person's review:
-   `godot --headless --path . -s tools/qa/upscale_png.gd -- <native.png> <NN-what@3x.png> 3`.
+   `C:/dev/Godot/Godot_v4.7.2-stable_win64.exe --headless --path . -s tools/qa/upscale_png.gd -- <native.png> <NN-what@3x.png> 3`
+   (the project's `engine.path`, unquoted and typed out literally, which is the form `.claude/settings.json` allows).
 8. `get_debug_output` for errors, `stop_project`, then confirm no bridge was left: the project's `project.godot` has no
    `autoload` or `McpBridge` line and `git diff --exit-code -- <project>/project.godot` is clean.
 
