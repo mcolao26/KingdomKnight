@@ -15,3 +15,4 @@ paths:
 - UI must never block the game thread
 - Scalable text and colorblind modes are mandatory, not optional
 - Test all screens at minimum and maximum supported resolutions
+- Godot: anchor every HUD and UI Control to the screen edges (Control anchors and Containers, for example a full-rect root). Never place UI with absolute pixel coordinates. The base viewport is 480×270 with whole-number scaling (see `src/core/pixel_viewport.gd`), so the visible area is slightly larger than 480×270 on windows that are not an exact multiple (512×288 at 1440p, 688×288 at 3440×1440); edge-anchored UI stays on the real edges

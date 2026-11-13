@@ -174,19 +174,29 @@ The knight grows through XP levels, eight allocatable stats, and gear with stat 
 
 ## Art, audio & production specs
 
-Art runs at roughly double Stardew's detail, and visible armor is the biggest art-scope risk, so gear slots stay limited.
+Art is built at a 16-pixel scale on a 480×270 base resolution, and visible armor is the biggest art-scope risk, so gear slots stay limited.
 
 | Area | Decision |
 | --- | --- |
-| Tiles | 32×32 |
-| Characters | About 32×48 |
+| Base resolution | 480×270, scaled by whole numbers only so every pixel is the same size: 4× at 1080p, 5× at 1440p, 8× at 4K. Windows that are not an exact multiple show slightly more of the world instead of black borders. HUD and UI anchor to screen edges |
+| Tiles | 16×16 |
+| Characters | About 16×32 |
 | Directions | 4-direction sprites; left mirrors right where gear allows |
 | Visible gear | Helmet, chest, and weapon only. Rings, boots, and similar gear affect stats only |
 | Variety | Palette swaps (iron, steel, gold, cursed) from one base drawing |
 | Sprite source | All sprites made with the sprite-gen skill (aldegad/sprite-gen), which handles generation, transparency cleanup, frame extraction, and atlas creation |
 | Sprite fixes | Regenerate through sprite-gen with corrected prompts, never by hand editing |
-| Style lock | Before generating any game assets, create a reference sheet (palette, 32×32 tiles, about 32×48 characters, one base character) that every sprite-gen prompt references, so all sprites stay consistent |
+| Style lock | Before generating any game assets, create a reference sheet (palette, 16×16 tiles, about 16×32 characters, one base character) that every sprite-gen prompt references, so all sprites stay consistent |
 | Audio | Royalty-free or licensed music and sound effects; custom work later if the game takes off |
+
+**Look**
+
+- Warm, saturated palette.
+- Colored outlines a shade darker than the object they enclose; almost no pure black.
+- 3/4 top-down perspective with soft shadows.
+- Textures built from scattered pixels, not gradients.
+
+**Reference rule:** never use another game's sprites, tilesets, or screenshots as input to sprite-gen or as tracing references.
 
 **Art-scope math:** each visible armor piece needs about 144 frames (4 directions × 6 animations × about 6 frames), and real-time combat adds wind-up, hit-reaction, dodge, and parry frames. Mirroring breaks for asymmetric gear such as shields.
 
