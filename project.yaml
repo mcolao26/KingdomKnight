@@ -32,7 +32,12 @@ project:
 
 modes:
   rigor: minimal
-  automation: guided
+  automation: autonomous
+  automation_always_ask:
+    - scope_changes
+    - file_deletions
+    - schema_changes
+    - external_calls
 
 engine:
   name: "Godot"

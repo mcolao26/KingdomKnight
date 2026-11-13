@@ -45,24 +45,44 @@ after it runs `project.yaml` holds the real values.
 
 ## Collaboration Protocol
 
-**User-driven collaboration, not autonomous execution.**
-Every task follows: **Question -> Options -> Decision -> Draft -> Approval**
+**Autonomous build mode. Creative decisions belong to Matthew.**
 
-- Agents MUST ask "May I write this to [filepath]?" before using Write/Edit tools
-  (exempt: `active.md` appends, agent memory, a subagent's new file at the path
-  its orchestrating skill named; see `.claude/rules/agent-memory.md`)
-- Agents MUST show drafts or summaries before requesting approval
-- Multi-file changes require explicit approval for the full changeset
-- No commits without user instruction
-- A skipped or dismissed question is not an answer: act on nothing, re-ask in
-  plain text and wait
-- Started outside this file's folder? Warn first: hooks, deny rules and the
-  ask-first mode load only when Claude Code starts here
+Follow `modes.automation` in `project.yaml`. Where it conflicts with
+`docs/COLLABORATIVE-DESIGN-PRINCIPLE.md`, `project.yaml` wins. The overall
+workflow is in `production/WORKFLOW.md`.
 
-See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
+**Never invent creative content. Always stop and ask Matthew for:**
+- Story, plot, lore, factions, and the betrayal mystery
+- Characters: names, personalities, backstories, dialogue, AI NPC personality
+  prompts, and romance options
+- Gameplay content: skills, magic, buffs and passives, weapon types, armor
+  types, items, enemies, quests, stat values, and balance numbers
+- Art direction and the style reference sheet
 
-> **First session?** Say "make me a game" (`/prototype`), or run `/start` to begin
-> the guided onboarding flow.
+To keep building while those are open, make systems data-driven and use
+obviously fake placeholder data (for example `PLACEHOLDER_SWORD` or
+`placeholder_npc_01`). List every placeholder in `design/open-questions.md`
+with the question Matthew needs to answer. Never present placeholder content
+as a design decision.
+
+A note Matthew writes in `production/playtest/inbox.md` counts as his decision
+for whatever it states. Build it. For any part it leaves open, use the
+placeholder rule above.
+
+**Everything else: decide and keep going.** This covers code structure,
+implementation, tests, bug fixes, refactors, and which backlog item is next.
+Don't ask "should I continue?" or "what's next?". Log decisions in
+`production/session-logs/decision-log.md`.
+
+**Verify your own work.** Run the game through godot-mcp, check the debug
+output and screenshots, and fix errors before handing back.
+
+**Git:** commit each finished item to a feature branch with a Conventional
+Commit message. Never push, merge to `main`, or force-push without asking.
+
+**Stop and ask** for anything in the creative list above, anything in
+`modes.automation_always_ask`, and anything `design/kingdom-knight-design.md`
+does not cover.
 
 ## Coding Standards
 

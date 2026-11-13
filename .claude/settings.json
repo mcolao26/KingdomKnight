@@ -13,7 +13,6 @@
     "baseRef": "head"
   },
   "permissions": {
-    "defaultMode": "default",
     "allow": [
       "Bash(dir *)",
       "Bash(python -m pytest *)",
