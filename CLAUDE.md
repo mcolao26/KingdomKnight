@@ -84,6 +84,9 @@ Commit message. Never push, merge to `main`, or force-push without asking.
 `modes.automation_always_ask`, and anything `design/kingdom-knight-design.md`
 does not cover.
 
+If a permission rule or hook denies a command, stop and tell Matthew.
+Never split, rephrase, or reroute a denied command to get around it.
+
 ## Coding Standards
 
 @.claude/docs/coding-standards.md
