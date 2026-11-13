@@ -1,0 +1,5 @@
+Reviewed-Content-Hash: prototypes/combat-concept/player.gd dada6fdbb566dc10d080a64949d96992df3886f4
+Reviewed-Content-Hash: prototypes/combat-concept/dummy.gd 5bbd76efe1054e9f3cca2929f7abd7b20575124e
+Reviewed-Content-Hash: prototypes/combat-concept/hud.gd a452dd1036fcbc7a62d4a5a0254d618c660e1478
+Reviewed-Content-Hash: prototypes/combat-concept/main.gd fa95f13731e935bbd0335df8be5e2a47b47fc15d
+Reviewed-Content-Hash: prototypes/combat-concept/main.tscn 328b6d45fb0660f47fb8fd38d55172aab563c2a5
